@@ -11,8 +11,8 @@ generator client {
 }
 
 model User {
-  id         Int      @id
-  balance    String
+  id         String   @id
+  balance    Decimal
   credit     Int
   picture    String
   name_first String
@@ -22,5 +22,6 @@ model User {
   phone      Int
   address    String
   comments   String
+  created    DateTime
   tags       String[]
 }
