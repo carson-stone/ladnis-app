@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
 	mode: 'jit',
 	purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
@@ -17,8 +19,23 @@ module.exports = {
 				},
 				gray: {
 					light: '#FAFAFA',
-					med: '#DCDBE3',
+					DEFAULT: '#DCDBE3',
 				},
+			},
+			borderRadius: {
+				md: '8px',
+				lg: '10px',
+			},
+			fontFamily: {
+				sans: ['Nunito Sans', ...defaultTheme.fontFamily.sans],
+			},
+			fontSize: {
+				lg: '1.25rem',
+				xl: '1.5rem',
+				'2xl': '1.7rem',
+			},
+			boxShadow: {
+				md: '0px 6px 18px rgba(0, 0, 0, 0.1);',
 			},
 		},
 	},
