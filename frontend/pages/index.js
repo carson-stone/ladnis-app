@@ -107,7 +107,7 @@ export default function Home({ users }) {
 			<h1 className='text-4xl font-bold text-purple mb-8'>Landis Accounts</h1>
 
 			<input
-				className='w-2/3 outline-none placeholder-gray-text text-gray-text bg-transparent bg-gray-input rounded-md py-3.5 px-7.5 mb-12'
+				className='max-w-[500px] w-2/3 outline-none placeholder-gray-text text-gray-text bg-transparent bg-gray-input rounded-md py-3.5 px-7.5 mb-12'
 				placeholder='search by tag or name'
 				onChange={updateSearch}
 				value={searchTerm}
