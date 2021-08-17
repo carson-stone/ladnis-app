@@ -101,6 +101,11 @@ export default function Home({ users }) {
 						email,
 						phone,
 						picture,
+						comments,
+						employer,
+						address,
+						tags,
+						created,
 					}) => {
 						const fullName = toFullName(name_first, name_last);
 						const formattedBalance = formatDollarAmount(balance);
@@ -109,6 +114,7 @@ export default function Home({ users }) {
 							credit
 						);
 						const progressBar = getPurchaseProgressBar(balance, credit);
+						const details = { address, employer, tags, created };
 
 						return (
 							<UserCard
@@ -117,6 +123,8 @@ export default function Home({ users }) {
 								phone={phone}
 								email={email}
 								picture={picture}
+								comments={comments}
+								details={details}
 								name={fullName}
 								balance={formattedBalance}
 								purchaseProgress={purchaseProgress}
