@@ -37,6 +37,9 @@ module.exports = {
 			boxShadow: {
 				md: '0px 6px 18px rgba(0, 0, 0, 0.1);',
 			},
+			padding: {
+				7.5: '30px',
+			},
 		},
 	},
 	variants: {
