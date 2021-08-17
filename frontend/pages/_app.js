@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Header from '../components/Header';
 import Footer from '../components/Footer';
 import 'tailwindcss/tailwind.css';
 
@@ -10,6 +11,7 @@ function MyApp({ Component, pageProps }) {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<div className='flex flex-col w-full min-h-screen'>
+				<Header />
 				<main className=' flex-1 px-20'>
 					<Component {...pageProps} />
 				</main>

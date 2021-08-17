@@ -103,8 +103,8 @@ export default function Home({ users }) {
 		searchTerm !== '' ? fuse.search(searchTerm).map(({ item }) => item) : users;
 
 	return (
-		<div className='flex flex-col items-center justify-center min-h-screen py-12'>
-			<h1 className='text-4xl font-bold text-blue mb-8'>Landis Accounts</h1>
+		<div className='flex flex-col items-center justify-center min-h-screen pt-20 pb-12'>
+			<h1 className='text-4xl font-bold text-purple mb-8'>Landis Accounts</h1>
 
 			<input
 				className='w-2/3 outline-none placeholder-gray-text text-gray-text bg-transparent bg-gray-input rounded-md py-3.5 px-7.5 mb-12'
