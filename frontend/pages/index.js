@@ -127,7 +127,7 @@ export default function Home({ users }) {
 									</a>
 								</div>
 							</div>
-							<div className='flex justify-between px-10 py-12 bg-purple-light'>
+							<div className='flex justify-between px-24 py-12 bg-purple-light'>
 								<div className='flex space-x-8 border-r border-gray pr-16'>
 									<div className='flex flex-col space-y-8'>
 										<p className='text-purple font-bold'>Balance</p>
