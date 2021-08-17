@@ -1,6 +1,6 @@
 export default function Home({ users }) {
-	const TARGET_BALANCE_TO_PURCHASE = 6000.0;
-	const TARGET_CREDIT_TO_PURCHASE = 735;
+	const TARGET_BALANCE_TO_PURCHASE = 8000.0;
+	const TARGET_CREDIT_TO_PURCHASE = 800;
 
 	function toFullName(first, last) {
 		return `${first} ${last}`;
@@ -15,34 +15,78 @@ export default function Home({ users }) {
 	}
 
 	function calculatePurchaseProgress(balance, credit) {
+		if (balance > TARGET_BALANCE_TO_PURCHASE) {
+			balance = TARGET_BALANCE_TO_PURCHASE;
+		}
+		if (credit > TARGET_CREDIT_TO_PURCHASE) {
+			credit = TARGET_CREDIT_TO_PURCHASE;
+		}
 		const balanceProgress =
 			Number.parseFloat(balance) / TARGET_BALANCE_TO_PURCHASE;
 		const creditProgress = credit / TARGET_CREDIT_TO_PURCHASE;
-		return balanceProgress + creditProgress / 2;
+		return (balanceProgress + creditProgress) / 2;
 	}
 
 	function getFormattedPurchaseProgress(balance, credit) {
 		const progress = calculatePurchaseProgress(balance, credit);
-		return progress.toFixed(1) + '%';
+		return (progress * 100).toFixed(1) + '%';
 	}
 
-	function getPurchaseProgressBarWidth(balance, credit) {
+	function getPurchaseProgressBar(balance, credit) {
 		const progress = calculatePurchaseProgress(balance, credit);
-		return '66px';
-		switch (true) {
-			case 0.5 <= progress && progress < 0.6:
-				return '1/2';
-			case 0.6 <= progress && progress < 0.7:
-				return '2/3';
-			default:
-				return 'full';
+		console.log('progress', progress);
+		if (progress < 0.1) {
+			return (
+				<div className='absolute bottom-0 left-0 bg-green w-[0%] h-1'></div>
+			);
+		} else if (0.1 <= progress && progress < 0.2) {
+			return (
+				<div className='absolute bottom-0 left-0 bg-green w-[10%] h-1'></div>
+			);
+		} else if (0.2 <= progress && progress < 0.3) {
+			return (
+				<div className='absolute bottom-0 left-0 bg-green w-[20%] h-1'></div>
+			);
+		} else if (0.3 <= progress && progress < 0.4) {
+			return (
+				<div className='absolute bottom-0 left-0 bg-green w-[30%] h-1'></div>
+			);
+		} else if (0.4 <= progress && progress < 0.5) {
+			return (
+				<div className='absolute bottom-0 left-0 bg-green w-[40%] h-1'></div>
+			);
+		} else if (0.5 <= progress && progress < 0.6) {
+			return (
+				<div className='absolute bottom-0 left-0 bg-green w-[50%] h-1'></div>
+			);
+		} else if (0.6 <= progress && progress < 0.7) {
+			return (
+				<div className='absolute bottom-0 left-0 bg-green w-[60%] h-1'></div>
+			);
+		} else if (0.7 <= progress && progress < 0.8) {
+			return (
+				<div className='absolute bottom-0 left-0 bg-green w-[70%] h-1'></div>
+			);
+		} else if (0.8 <= progress && progress < 0.9) {
+			return (
+				<div className='absolute bottom-0 left-0 bg-green w-[80%] h-1'></div>
+			);
+		} else if (0.9 <= progress && progress < 1.0) {
+			return (
+				<div className='absolute bottom-0 left-0 bg-green w-[90%] h-1'></div>
+			);
+		} else if (progress === 1.0) {
+			return (
+				<div className='absolute bottom-0 left-0 bg-green w-[100%] h-1'></div>
+			);
+		} else {
+			console.error('ooops');
 		}
 	}
 
 	return (
 		<div className='flex flex-col items-center justify-center min-h-screen py-2'>
 			<h1 className='text-6xl font-bold text-blue'>Landis Accounts</h1>
-
 			{users.map((user) => {
 				const fullName = toFullName(user.name_first, user.name_last);
 				const formattedBalance = formatDollarAmount(user.balance);
@@ -50,8 +94,7 @@ export default function Home({ users }) {
 					user.balance,
 					user.credit
 				);
-				console.log('purchaseProgress', purchaseProgress);
-				const purchaseProgressBarWidth = `w-[${purchaseProgress}]`;
+				const progressBar = getPurchaseProgressBar(user.balance, user.credit);
 
 				return (
 					<div key={user.id} className='shadow-md rounded-lg'>
@@ -92,7 +135,7 @@ export default function Home({ users }) {
 									<div className='absolute -bottom-2'>
 										<div className='relative w-14 h-1'>
 											<div className='absolute bottom-0 left-0 bg-gray w-full h-1'></div>
-											<div className='absolute bottom-0 left-0 bg-green w-full h-1'></div>
+											{progressBar}
 										</div>
 									</div>
 								</div>
