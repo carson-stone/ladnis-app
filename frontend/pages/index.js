@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import axios from 'axios';
+import Fuse from 'fuse.js';
 import UserCard from '../components/UserCard';
 
 export default function Home({ users }) {
@@ -86,26 +88,49 @@ export default function Home({ users }) {
 		}
 	}
 
-	return (
-		<div className='flex flex-col items-center justify-center min-h-screen py-2'>
-			<h1 className='text-6xl font-bold text-blue mb-8'>Landis Accounts</h1>
+	function updateSearch(e) {
+		setSearchTerm(e.target.value);
+	}
 
-			<div className='space-y-8'>
-				{users.map(
+	// filter users by name and tags based on search
+	const [searchTerm, setSearchTerm] = useState('');
+	const searchOptions = {
+		includeScore: true,
+		keys: ['item.name_first', 'item.name_last', 'item.tags'],
+	};
+	const fuse = new Fuse(users, searchOptions);
+	const filteredUsers =
+		searchTerm !== '' ? fuse.search(searchTerm).map(({ item }) => item) : users;
+
+	return (
+		<div className='flex flex-col items-center justify-center min-h-screen py-12'>
+			<h1 className='text-4xl font-bold text-blue mb-8'>Landis Accounts</h1>
+
+			<input
+				className='w-2/3 outline-none placeholder-gray-text text-gray-text bg-transparent bg-gray-input rounded-md py-3.5 px-7.5 mb-12'
+				placeholder='search by tag or name'
+				onChange={updateSearch}
+				value={searchTerm}
+			/>
+
+			<div className='space-y-12 pb-12'>
+				{filteredUsers.map(
 					({
-						id,
-						name_first,
-						name_last,
-						balance,
-						credit,
-						email,
-						phone,
-						picture,
-						comments,
-						employer,
-						address,
-						tags,
-						created,
+						item: {
+							id,
+							name_first,
+							name_last,
+							balance,
+							credit,
+							email,
+							phone,
+							picture,
+							comments,
+							employer,
+							address,
+							tags,
+							created,
+						},
 					}) => {
 						const fullName = toFullName(name_first, name_last);
 						const formattedBalance = formatDollarAmount(balance);
@@ -141,7 +166,8 @@ export default function Home({ users }) {
 export async function getServerSideProps() {
 	try {
 		const { data: users } = await axios.get(`${process.env.API_URL}/api/users`);
-		return { props: { users } };
+		const usersArray = users.map((user) => ({ item: user }));
+		return { props: { users: usersArray } };
 	} catch (e) {
 		console.error(e);
 	}

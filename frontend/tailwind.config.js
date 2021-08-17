@@ -19,6 +19,8 @@ module.exports = {
 				},
 				gray: {
 					light: '#FAFAFA',
+					text: '#81829c',
+					input: '#f3f4fb',
 					DEFAULT: '#DCDBE3',
 				},
 			},
