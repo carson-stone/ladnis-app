@@ -15,7 +15,8 @@ async function main() {
 			const user: User = JSON.parse(line);
 			const created = new Date(user.created);
 			const balance = new Prisma.Decimal(user.balance);
-			await prisma.user.create({ data: { ...user, balance, created } });
+			const phone = user.phone.toString();
+			await prisma.user.create({ data: { ...user, balance, created, phone } });
 		});
 		rl.on('close', async () => {
 			await prisma.$disconnect();
