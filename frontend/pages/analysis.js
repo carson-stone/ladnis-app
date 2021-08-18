@@ -1,12 +1,24 @@
+import axios from 'axios';
 import Link from 'next/link';
 import {
 	TARGET_BALANCE_TO_PURCHASE,
 	TARGET_CREDIT_TO_PURCHASE,
 	formatDollarAmount,
 	getFormattedPurchaseProgress,
+	toFullName,
 } from './index';
 
 export default function Analysis({ data }) {
+	if (!data) {
+		return (
+			<div className='flex flex-col items-center justify-start min-h-screen pt-20 pb-12'>
+				<h1 className='text-4xl font-bold text-purple mb-8'>
+					Error Getting Analysis
+				</h1>
+			</div>
+		);
+	}
+
 	const formattedTargetBalance = formatDollarAmount(TARGET_BALANCE_TO_PURCHASE);
 
 	return (
@@ -184,53 +196,84 @@ export default function Analysis({ data }) {
 }
 
 export async function getServerSideProps() {
-	const highestProgress = getFormattedPurchaseProgress(21000, 770);
-	const lowestProgress = getFormattedPurchaseProgress(100, 350);
-	const highestProgressAccountName = 'John Smith';
-	const lowestProgressAccountName = 'Tim White';
-	const highestProgressAccountId = 'test-id';
-	const lowestProgressAccountId = 'test-id';
-	const highestBalanceRaw = 21000;
-	const highestBalance = formatDollarAmount(highestBalanceRaw);
-	const lowestBalanceRaw = 100;
-	const lowestBalance = formatDollarAmount(lowestBalanceRaw);
-	const highestBalanceAccountName = 'John Smith';
-	const lowestBalanceAccountName = 'Tim White';
-	const highestBalanceAccountId = 'test-id';
-	const lowestBalanceAccountId = 'test-id';
-	const highestCredit = 770;
-	const lowestCredit = 350;
-	const highestCreditAccountName = 'John Smith';
-	const lowestCreditAccountName = 'Tim White';
-	const highestCreditAccountId = 'test-id';
-	const lowestCreditAccountId = 'test-id';
-	const averageBalanceRaw = 12100.44;
-	const averageBalance = formatDollarAmount(averageBalanceRaw);
-	const averageCredit = Math.round(585.44);
+	try {
+		const { data } = await axios.get(`${process.env.API_URL}/api/analysis`);
 
-	const data = {
-		percentageRanges: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 0],
-		highestProgress,
-		lowestProgress,
-		highestProgressAccountName,
-		highestProgressAccountId,
-		lowestProgressAccountId,
-		highestBalanceAccountId,
-		lowestBalanceAccountId,
-		highestCreditAccountId,
-		lowestCreditAccountId,
-		lowestProgressAccountName,
-		highestBalance,
-		lowestBalance,
-		highestBalanceAccountName,
-		lowestBalanceAccountName,
-		highestCreditAccountName,
-		lowestCreditAccountName,
-		highestCredit,
-		lowestCredit,
-		averageBalance,
-		averageCredit,
-	};
+		const highestProgress = getFormattedPurchaseProgress(
+			data.highestProgress.balance,
+			data.highestProgress.credit
+		);
+		const lowestProgress = getFormattedPurchaseProgress(
+			data.lowestProgress.balance,
+			data.lowestProgress.credit
+		);
+		const highestProgressAccountName = toFullName(
+			data.highestProgress.name_first,
+			data.highestProgress.name_last
+		);
+		const lowestProgressAccountName = toFullName(
+			data.lowestProgress.name_first,
+			data.lowestProgress.name_last
+		);
+		const highestProgressAccountId = data.highestProgress.id;
+		const lowestProgressAccountId = data.lowestProgress.id;
+		const highestBalanceRaw = data.highestBalance.balance;
+		const highestBalance = formatDollarAmount(highestBalanceRaw);
+		const lowestBalanceRaw = data.lowestBalance.balance;
+		const lowestBalance = formatDollarAmount(lowestBalanceRaw);
+		const highestBalanceAccountName = toFullName(
+			data.highestBalance.name_first,
+			data.highestBalance.name_last
+		);
+		const lowestBalanceAccountName = toFullName(
+			data.lowestBalance.name_first,
+			data.lowestBalance.name_last
+		);
+		const highestBalanceAccountId = data.highestBalance.id;
+		const lowestBalanceAccountId = data.lowestBalance.id;
+		const highestCredit = data.highestCredit.credit;
+		const lowestCredit = data.lowestCredit.credit;
+		const highestCreditAccountName = toFullName(
+			data.highestCredit.name_first,
+			data.highestCredit.name_last
+		);
+		const lowestCreditAccountName = toFullName(
+			data.lowestCredit.name_first,
+			data.lowestCredit.name_last
+		);
+		const highestCreditAccountId = data.highestCredit.id;
+		const lowestCreditAccountId = data.lowestCredit.id;
+		const averageBalanceRaw = data.averageBalance;
+		const averageBalance = formatDollarAmount(averageBalanceRaw);
+		const averageCredit = Math.round(data.averageCredit);
 
-	return { props: { data } };
+		const analysisData = {
+			percentageRanges: data.progressPercentageRanges,
+			highestProgress,
+			lowestProgress,
+			highestProgressAccountName,
+			highestProgressAccountId,
+			lowestProgressAccountId,
+			highestBalanceAccountId,
+			lowestBalanceAccountId,
+			highestCreditAccountId,
+			lowestCreditAccountId,
+			lowestProgressAccountName,
+			highestBalance,
+			lowestBalance,
+			highestBalanceAccountName,
+			lowestBalanceAccountName,
+			highestCreditAccountName,
+			lowestCreditAccountName,
+			highestCredit,
+			lowestCredit,
+			averageBalance,
+			averageCredit,
+		};
+
+		return { props: { data: analysisData } };
+	} catch (e) {
+		console.error(e);
+		return { props: { data: null } };
+	}
 }
