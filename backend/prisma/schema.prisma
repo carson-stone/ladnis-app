@@ -19,7 +19,7 @@ model User {
   name_last  String
   employer   String
   email      String   @unique
-  phone      Int
+  phone      BigInt
   address    String
   comments   String
   created    DateTime
