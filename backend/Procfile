@@ -1,1 +1,2 @@
 web: npx ts-node ./index.ts
+release: npx prisma migrate deploy
