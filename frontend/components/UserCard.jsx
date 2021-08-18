@@ -1,4 +1,4 @@
-import { useRouter } from 'next/dist/client/router';
+import Link from 'next/link';
 import { useState } from 'react';
 import Button from './Button';
 
@@ -16,12 +16,6 @@ export default function UserCard({
 	comments,
 	details,
 }) {
-	const router = useRouter();
-
-	function goToUser() {
-		router.push(`/users/${id}`);
-	}
-
 	function showComments() {
 		toggleComments(true);
 	}
@@ -82,13 +76,12 @@ export default function UserCard({
 				</div>
 			)}
 			{navigateToUserPage ? (
-				<div
-					className='flex justify-between items-center space-x-6 bg-white px-10 py-2'
-					onClick={goToUser}
-				>
+				<div className='flex justify-between items-center space-x-6 bg-white px-10 py-2'>
 					<div className='cursor-pointer flex items-center space-x-7'>
 						<img src={picture} alt={name} className='rounded-full w-20 h-20' />
-						<p className='text-xl text-purple font-bold max-w-xs'>{name}</p>
+						<Link href={`/users/${id}`}>
+							<a className='text-xl text-purple font-bold max-w-xs'>{name}</a>
+						</Link>
 					</div>
 					<div className='flex flex-col items-end'>
 						<a href={`tel:${phone}`} className='text-purple underline'>
@@ -106,10 +99,10 @@ export default function UserCard({
 						<p className='text-xl text-purple font-bold max-w-xs'>{name}</p>
 					</div>
 					<div className='flex flex-col items-end'>
-						<a href={`tel:${phone}`} className='text-purple underline'>
+						<a href={`tel:${phone}`} className='text-purple underLinke'>
 							{phone}
 						</a>
-						<a href={`mailto:${email}`} className='text-purple underline'>
+						<a href={`mailto:${email}`} className='text-purple underLinke'>
 							{email}
 						</a>
 					</div>
