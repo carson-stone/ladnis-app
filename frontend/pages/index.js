@@ -144,6 +144,7 @@ export default function Home({ users }) {
 						return (
 							<UserCard
 								key={id}
+								id={id}
 								credit={credit}
 								phone={phone}
 								email={email}

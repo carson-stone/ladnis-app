@@ -41,6 +41,7 @@ export default function User({ user }) {
 			<h1 className='text-4xl font-bold text-purple mb-16'>{fullName}</h1>
 
 			<UserCard
+				navigateToUserPage={false}
 				balance={formattedBalance}
 				credit={credit}
 				details={details}

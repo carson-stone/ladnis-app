@@ -1,7 +1,10 @@
+import { useRouter } from 'next/dist/client/router';
 import { useState } from 'react';
 import Button from './Button';
 
 export default function UserCard({
+	navigateToUserPage = true,
+	id,
 	picture,
 	phone,
 	name,
@@ -13,6 +16,12 @@ export default function UserCard({
 	comments,
 	details,
 }) {
+	const router = useRouter();
+
+	function goToUser() {
+		router.push(`/users/${id}`);
+	}
+
 	function showComments() {
 		toggleComments(true);
 	}
@@ -72,20 +81,40 @@ export default function UserCard({
 					</div>
 				</div>
 			)}
-			<div className='flex justify-between items-center space-x-6 bg-white px-10 py-2'>
-				<div className='flex items-center space-x-7'>
-					<img src={picture} alt={name} className='rounded-full w-20 h-20' />
-					<p className='text-xl text-purple font-bold max-w-xs'>{name}</p>
+			{navigateToUserPage ? (
+				<div
+					className='flex justify-between items-center space-x-6 bg-white px-10 py-2'
+					onClick={goToUser}
+				>
+					<div className='cursor-pointer flex items-center space-x-7'>
+						<img src={picture} alt={name} className='rounded-full w-20 h-20' />
+						<p className='text-xl text-purple font-bold max-w-xs'>{name}</p>
+					</div>
+					<div className='flex flex-col items-end'>
+						<a href={`tel:${phone}`} className='text-purple underline'>
+							{phone}
+						</a>
+						<a href={`mailto:${email}`} className='text-purple underline'>
+							{email}
+						</a>
+					</div>
 				</div>
-				<div className='flex flex-col items-end'>
-					<a href={`tel:${phone}`} className='text-purple underline'>
-						{phone}
-					</a>
-					<a href={`mailto:${email}`} className='text-purple underline'>
-						{email}
-					</a>
+			) : (
+				<div className='flex justify-between items-center space-x-6 bg-white px-10 py-2'>
+					<div className='flex items-center space-x-7'>
+						<img src={picture} alt={name} className='rounded-full w-20 h-20' />
+						<p className='text-xl text-purple font-bold max-w-xs'>{name}</p>
+					</div>
+					<div className='flex flex-col items-end'>
+						<a href={`tel:${phone}`} className='text-purple underline'>
+							{phone}
+						</a>
+						<a href={`mailto:${email}`} className='text-purple underline'>
+							{email}
+						</a>
+					</div>
 				</div>
-			</div>
+			)}
 			<div className='flex justify-between px-24 py-12 bg-purple-light'>
 				<div className='flex space-x-8 border-r border-gray pr-16'>
 					<div className='flex flex-col space-y-8'>
