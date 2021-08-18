@@ -40,11 +40,13 @@ export default function UserCard({
 	return (
 		<div className='min-w-[600px] shadow-md rounded-lg'>
 			{showingComments && (
-				<div className='fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-[480px] min-h-[416px] max-h-[550px] bg-white shadow-md rounded-lg overflow-scroll'>
-					<div className='flex flex-col px-12 py-8'>
-						<p className='text-xl text-purple font-bold mb-6'>{name}</p>
-						<p className='text-purple font-bold mb-3'>Comments</p>
-						<p className='flex-1 text-purple mb-12'>{comments}</p>
+				<div className='flex flex-col fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-[480px] min-h-[416px] max-h-[550px] bg-white shadow-md rounded-lg overflow-scroll'>
+					<div className='flex-1 flex flex-col h-full px-12 py-8'>
+						<div className='flex-1'>
+							<p className='text-xl text-purple font-bold mb-6'>{name}</p>
+							<p className='text-purple font-bold mb-3'>Comments</p>
+							<p className='flex-1 text-purple mb-12'>{comments}</p>
+						</div>
 						<Button text='Close' onClick={hideComments} />
 					</div>
 				</div>
