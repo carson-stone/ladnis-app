@@ -1,2 +1,2 @@
 web: npx ts-node ./index.ts
-release: npx prisma migrate deploy
+release: npx prisma migrate deploy && npx prisma db seed --preview-feature
