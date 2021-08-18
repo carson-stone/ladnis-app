@@ -10,6 +10,6 @@ app.use(helmet());
 app.use('/api/users', userRouter);
 app.use('/api/analysis', analysisRouter);
 
-app.listen(5000, () => {
-	console.log('app listening on port 5000');
+app.listen(process.env.PORT, () => {
+	console.log('app listening on port ' + process.env.PORT);
 });
