@@ -3,8 +3,8 @@ This project is deployed at [Vercel](https://landis-app.vercel.app/). The backen
 
 The code can be ran locally by doing the following:
 
-- First, setup the database. You will need to create a .env file at the root of `/backend` with a variable like `DATABASE_URL="postgresql://postgres:postgres@localhost:5432/landis?schema=public"`.
+- First, setup the database. You will need to create a `.env` file at the root of `/backend` with a variable like `DATABASE_URL="postgresql://postgres:postgres@localhost:5432/landis?schema=public"`.
   Second, create a `.env.local` file in the root of `/frontend`. Add the variable `API_URL="http://localhost:5000"`
-- `npx prisma migrate:dev`
+- `npx prisma migrate dev`
 - `npx prisma db seed --preview-feature` to add users to the Users table. The seed function is in `/backend/prisma/seed.ts`
 - `concurrently "cd backend && yarn start:dev" "cd frontend && yarn next dev"`
